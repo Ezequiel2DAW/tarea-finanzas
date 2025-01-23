@@ -1,5 +1,5 @@
 <x-layouts.index :title="$title">
-  
-    <x-table/>
+
+    <x-table :tableData="$tableData"/>
 
 </x-layouts.index>

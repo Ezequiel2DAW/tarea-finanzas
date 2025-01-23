@@ -11,8 +11,19 @@ class IncomeController extends Controller
      */
     public function index()
     {
+        $tableData = [
+            'headers' => [
+                'date', 'type', "quantity"
+            ],
+            'data' => [
+                ['12/12/2012', "salary", "2500$"],
+                ['12/1/2013', "salary", "2500$"],
+                ['12/2/2013', "salary", "2550$"],
+            ]
+            ];
+
         //Aquí la lógica de negocio para el index
-        return view('income.index',['title' => 'My incomes']);
+        return view('income.index',['title' => 'My incomes', 'tableData' => $tableData]);
         
     }
 
