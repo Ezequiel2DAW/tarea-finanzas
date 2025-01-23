@@ -19,11 +19,12 @@ class IncomeController extends Controller
                 ['12/12/2012', "salary", "2500$"],
                 ['12/1/2013', "salary", "2500$"],
                 ['12/2/2013', "salary", "2550$"],
+                ['12/3/2013', "salary", "2555$"]
             ]
             ];
 
         //Aquí la lógica de negocio para el index
-        return view('income.index',['title' => 'My incomes', 'tableData' => $tableData]);
+        return view('income.index',['title' => 'My incomes', 'tableData' => $tableData, 'data' => ['src', 'https://es.wikipedia.org/wiki/Wikipedia:Portada']]);
         
     }
 
