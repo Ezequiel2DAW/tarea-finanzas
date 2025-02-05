@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
          ]);
 
          $this->call([
-            OutcomeSeeder::class,
+            ExpenseSeeder::class,
          ]);
     }
 }

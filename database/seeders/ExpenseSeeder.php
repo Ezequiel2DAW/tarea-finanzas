@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class OutcomeSeeder extends Seeder
+class ExpenseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +15,7 @@ class OutcomeSeeder extends Seeder
     {
         $now = now();
         $data = [];
-        for($i=0;$i<=50; $i++){
+        for($i=0;$i<=10; $i++){
             $data[]=[
                 'amount' => rand(50,5000),
                 'created_at' => $now,
@@ -24,7 +24,7 @@ class OutcomeSeeder extends Seeder
                 'date' => $now
             ];
         }
-        DB::table('outcomes')->insert(
+        DB::table('expenses')->insert(
             $data);
     }
 }

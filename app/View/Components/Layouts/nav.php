@@ -1,17 +1,17 @@
 <?php
 
-namespace App\View\Components\Layouts;
+namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Index extends Component
+class nav extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct(public String $title, public array $links)
+    public function __construct()
     {
         //
     }
@@ -21,6 +21,6 @@ class Index extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.layouts.index');
+        return view('components.layouts.nav');
     }
 }

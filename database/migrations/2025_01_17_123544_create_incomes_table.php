@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('outcomes', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->double('amount');
             $table->date('date');

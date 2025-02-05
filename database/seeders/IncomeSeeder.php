@@ -15,7 +15,7 @@ class IncomeSeeder extends Seeder
     {
         $now = now();
         $data = [];
-        for($i=0;$i<=50; $i++){
+        for($i=0;$i<=10; $i++){
             $data[]=[
                 'amount' => rand(50,5000),
                 'created_at' => $now,

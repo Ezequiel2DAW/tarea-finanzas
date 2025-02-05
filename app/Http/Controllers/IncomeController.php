@@ -13,6 +13,10 @@ class IncomeController extends Controller
     public function index()
     {
         $tableData = DB::table("incomes")->select('date', 'category', 'amount')->get();
+        $links = [ 
+            "My Incomes" => "incomes", 
+            "My Expenses" => "expenses"
+        ];
 
         // $tableData = [
         //     'headers' => [
@@ -27,7 +31,7 @@ class IncomeController extends Controller
         //     ];
 
         //Aquí la lógica de negocio para el index
-        return view('income.index',['title' => 'My incomes', 'tableData' => $tableData]);
+        return view('income.index',['title' => 'My incomes', 'tableData' => $tableData, 'links' => $links]);
         
     }
 
