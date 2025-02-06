@@ -9,7 +9,7 @@ class ExpensesController extends Controller
 {
     public function index()
     {
-        $tableData = DB::table("expenses")->select('date', 'message', 'amount')->get();
+        $tableData = DB::table("expenses")->select('date', 'category', 'amount')->get();
         $links = [ 
             "My Incomes" => "incomes", 
             "My Expenses" => "expenses"

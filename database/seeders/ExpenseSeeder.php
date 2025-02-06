@@ -20,7 +20,7 @@ class ExpenseSeeder extends Seeder
                 'amount' => rand(50,5000),
                 'created_at' => $now,
                 'updated_at' => $now,
-                'message' => 'taxes',
+                'category' => 'taxes',
                 'date' => $now
             ];
         }

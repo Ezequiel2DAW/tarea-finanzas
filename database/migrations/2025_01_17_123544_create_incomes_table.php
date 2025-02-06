@@ -23,7 +23,7 @@ return new class extends Migration
             $table->id();
             $table->double('amount');
             $table->date('date');
-            $table->string('message');
+            $table->string('category');
             $table->timestamps();
         });
     }
