@@ -13,7 +13,7 @@ class AddIncomeController extends Controller
             "My Incomes" => "/incomes", 
             "My Expenses" => "/expenses"
         ];
-        return view('income.add.index',['title' => 'Adding an income', 'links' => $links]);
+        return view('income.add.index',['title' => 'Adding an income', 'links' => $links, 'route' => route('form.income.store')]);
     }
 
     public function store(Request $request)

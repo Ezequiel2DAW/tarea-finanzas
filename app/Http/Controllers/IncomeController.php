@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Income;
+
 
 class IncomeController extends Controller
 {
@@ -12,7 +14,7 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $tableData = DB::table("incomes")->select('date', 'category', 'amount')->get();
+        $tableData = DB::table("incomes")->select('date', 'category', 'amount', 'id')->get();
         $links = [ 
             "My Incomes" => "incomes", 
             "My Expenses" => "expenses"
@@ -66,8 +68,13 @@ class IncomeController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        return '<p>Esta es la página del edit de incomes</p>';
+        $links = [ 
+            "My Incomes" => "/incomes", 
+            "My Expenses" => "/expenses"
+        ];
+
+        return view('income.update',['title' => 'Updating income', 'links' => $links, 'route' => route('incomes.update', ['id' => $id])]);
+        
     }
 
     /**
@@ -75,8 +82,19 @@ class IncomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        
+        $validated = $request->validate([
+            'date' => 'required|date',
+            'category' => 'required|string|max:255',
+            'amount' => 'required|numeric|min:0'
+        ]);
+
+        Income::whereId($id)->update([
+            'date'=> $request->date,
+            'category'=> $request->category,
+            'amount'=>$request->amount
+        ]);
+
+        return redirect('/incomes');
     }
 
     /**
@@ -84,6 +102,8 @@ class IncomeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Income::whereId($id)->delete();
+
+        return redirect('/incomes');
     }
 }

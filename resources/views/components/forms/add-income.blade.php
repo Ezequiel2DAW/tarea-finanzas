@@ -1,5 +1,5 @@
 <div class="w-full max-w-s">
-    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post" action="{{ route('form.income.store') }}">
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post" action="{{ $route }}">
     @csrf
     <div class="flex flex-wrap -mx-3 mb-6">
         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
