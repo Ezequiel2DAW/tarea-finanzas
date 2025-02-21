@@ -1,3 +1,4 @@
+<x-alert></x-alert>
 <div class="w-full max-w-s">
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="post" action="{{ $route }}">
     @csrf
@@ -12,7 +13,12 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-category">
             Category
         </label>
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category" name="category" type="text" placeholder="Salary" required>
+        <select class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-category" name="category_id" required>
+            <option disabled selected>Select a category</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ ucfirst($category->name) }}</option>
+            @endforeach
+        </select>
         </div>
         <div class="w-full md:w-1/3 px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-amount">

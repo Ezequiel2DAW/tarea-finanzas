@@ -33,10 +33,10 @@
                         </th> 
                     @else
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <x-button href="{{url(request()->segment(1).'/edit/'.$value)}}">Update</x-button>
+                            <x-button href="{{'/'.$tableType.'/edit/'.$value}}">Update</x-button>
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            <x-button href="{{url(request()->segment(1).'/delete/'.$value)}}">Delete</x-button>
+                            <x-button href="{{'/'.$tableType.'/delete/'.$value}}">Delete</x-button>
                         </th>
                     @endif
                 @endforeach

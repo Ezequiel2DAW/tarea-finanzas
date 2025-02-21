@@ -15,15 +15,10 @@ return new class extends Migration
             $table->id();
             $table->double('amount');
             $table->date('date');
-            $table->string('category');
-            $table->timestamps();
-        });
-
-        Schema::create('expenses', function (Blueprint $table) {
-            $table->id();
-            $table->double('amount');
-            $table->date('date');
-            $table->string('category');
+            $table->foreignId('category_id')
+            ->constrained()
+            ->onUpdate('cascade')
+            ->onDelete('restrict');
             $table->timestamps();
         });
     }

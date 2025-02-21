@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Income;
+use App\Models\Category;
 
 
 class IncomeController extends Controller
@@ -14,23 +14,20 @@ class IncomeController extends Controller
      */
     public function index()
     {
-        $tableData = DB::table("incomes")->select('date', 'category', 'amount', 'id')->get();
+        $tableData = Income::with('category')->get()->map(function($income) {
+            return [
+                'date' => $income->date,
+                'category' => ucfirst($income->category->name),
+                'amount' => $income->amount,
+                'id' => $income->id
+            ];
+        });
+
         $links = [ 
             "My Incomes" => "incomes", 
-            "My Expenses" => "expenses"
+            "My Expenses" => "expenses",
+            "Categories" => "categories"
         ];
-
-        // $tableData = [
-        //     'headers' => [
-        //         'date', 'type', "quantity"
-        //     ],
-        //     'data' => [
-        //         ['12/12/2012', "salary", "2500$"],
-        //         ['12/1/2013', "salary", "2500$"],
-        //         ['12/2/2013', "salary", "2550$"],
-        //         ['12/3/2013', "salary", "2555$"]
-        //     ]
-        //     ];
 
         //Aquí la lógica de negocio para el index
         return view('income.index',['title' => 'My incomes', 'tableData' => $tableData, 'links' => $links]);
@@ -42,8 +39,15 @@ class IncomeController extends Controller
      */
     public function create()
     {
-        //
-        return '<p>Esta es la página del create de incomes</p>';
+        $links = [ 
+            "My Incomes" => "/incomes", 
+            "My Expenses" => "/expenses",
+            "Categories" => "/categories"
+        ];
+
+        $categories = Category::all();
+
+        return view('income.add.index',['title' => 'Adding an income', 'links' => $links, 'route' => route('form.income.store'), 'categories' => $categories]);
     }
 
     /**
@@ -51,7 +55,19 @@ class IncomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
+            'amount' => 'required|numeric|min:0'
+        ]);
+
+        Income::create([
+            'date'=> $request->date,
+            'category_id'=> $request->category_id,
+            'amount'=> $request->amount
+        ]);
+
+        return redirect('/incomes');
     }
 
     /**
@@ -70,10 +86,13 @@ class IncomeController extends Controller
     {
         $links = [ 
             "My Incomes" => "/incomes", 
-            "My Expenses" => "/expenses"
+            "My Expenses" => "/expenses",
+            "Categories" => "/categories"
         ];
 
-        return view('income.update',['title' => 'Updating income', 'links' => $links, 'route' => route('incomes.update', ['id' => $id])]);
+        $categories = Category::all();
+
+        return view('income.update',['title' => 'Updating income', 'links' => $links, 'route' => route('incomes.update', ['id' => $id]), 'categories' => $categories]);
         
     }
 
@@ -82,15 +101,15 @@ class IncomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
+        $request->validate([
             'date' => 'required|date',
-            'category' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'amount' => 'required|numeric|min:0'
         ]);
 
         Income::whereId($id)->update([
             'date'=> $request->date,
-            'category'=> $request->category,
+            'category_id'=> $request->category_id,
             'amount'=>$request->amount
         ]);
 

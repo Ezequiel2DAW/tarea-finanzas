@@ -20,7 +20,7 @@ class IncomeSeeder extends Seeder
                 'amount' => rand(50,5000),
                 'created_at' => $now,
                 'updated_at' => $now,
-                'category' => 'salary',
+                'category_id' => rand(1,3),
                 'date' => $now
             ];
         }

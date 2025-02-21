@@ -2,5 +2,5 @@
     <div class="mb-4">
         <x-button href="expenses/add">Add Expense</x-button>
     </div>
-    <x-table :tableData="$tableData"/>
+    <x-table :tableData="$tableData" tableType="expenses"/>
 </x-layouts.index>

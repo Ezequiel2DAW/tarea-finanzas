@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\Expense;
+use App\Models\Category;
 
 
 class ExpensesController extends Controller
 {
     public function index()
     {
-        $tableData = DB::table("expenses")->select('date', 'category', 'amount', 'id')->get();
+        $tableData = Expense::with('category')->get()->map(function($expense) {
+            return [
+                'date' => $expense->date,
+                'category' => ucfirst($expense->category->name),
+                'amount' => $expense->amount,
+                'id' => $expense->id
+            ];
+        });
         $links = [ 
             "My Incomes" => "incomes", 
-            "My Expenses" => "expenses"
+            "My Expenses" => "expenses",
+            "Categories" => "categories"
         ];
         return view('expense.index',['title' => 'My expenses', 'tableData' => $tableData, 'links' => $links]);
     }
@@ -26,10 +34,13 @@ class ExpensesController extends Controller
     {
         $links = [ 
             "My Incomes" => "/incomes", 
-            "My Expenses" => "/expenses"
+            "My Expenses" => "/expenses",
+            "Categories" => "/categories"
         ];
 
-        return view('expense.update',['title' => 'Updating expense', 'links' => $links, 'route' => route('expenses.update', ['id' => $id])]);
+        $categories = Category::all();
+
+        return view('expense.update',['title' => 'Updating expense', 'links' => $links, 'route' => route('expenses.update', ['id' => $id]), 'categories' => $categories]);
         
     }
 
@@ -38,15 +49,15 @@ class ExpensesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validated = $request->validate([
+        $request->validate([
             'date' => 'required|date',
-            'category' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
             'amount' => 'required|numeric|min:0'
         ]);
 
         Expense::whereId($id)->update([
             'date'=> $request->date,
-            'category'=> $request->category,
+            'category_id'=> $request->category_id,
             'amount'=>$request->amount
         ]);
 
@@ -59,6 +70,37 @@ class ExpensesController extends Controller
     public function destroy(string $id)
     {
         Expense::whereId($id)->delete();
+
+        return redirect('/expenses');
+    }
+
+    public function create()
+    {
+        $links = [ 
+            "My Incomes" => "/incomes", 
+            "My Expenses" => "/expenses",
+            "Categories" => "/categories"
+        ];
+
+        $categories = Category::all();
+
+        return view('expense.add.index',['title' => 'Adding an expense', 'links' => $links, 'route' => route('form.expense.store'), 'categories' => $categories]);
+    }
+
+    public function store(Request $request)
+    {
+        
+        $request->validate([
+            'date' => 'required|date',
+            'category_id' => 'required|exists:categories,id',
+            'amount' => 'required|numeric|min:0'
+        ]);
+
+        Expense::create([
+            'date'=> $request->date,
+            'category_id'=> $request->category_id,
+            'amount'=> $request->amount
+        ]);
 
         return redirect('/expenses');
     }
